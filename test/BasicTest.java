@@ -8,69 +8,37 @@ public class BasicTest extends UnitTest {
 	@Before
 	public void setup() {
 		Fixtures.deleteDatabase();
+		Fixtures.loadModels("data.yml");
 	}
 	
 	@Test
-	public void createAndRetrieveUser() {
-		new User( "eduardouflassis@gmail.com", "123", "Eduardo Assis da Silva").save();
-		User user = User.find("byEmail", "eduardouflassis@gmail.com").first();
-		assertNotNull( user );
-		assertEquals( "Eduardo Assis da Silva", user.fullName );
-	}
-	
-	@Test
-	public void tryConnectAsUser() {
+	public void testFull() {
 		
-		new User( "bob@gmail.com", "secret", "Bob" ).save();
+		assertEquals( 2, User.count() );
+		assertEquals( 3, Post.count() );
+		assertEquals( 3, Comment.count() );
+		
 		assertNotNull( User.connect( "bob@gmail.com", "secret" ) );
-		assertNull( User.connect( "bob@gmail.com", "badPassword" ) );
+		assertNotNull( User.connect( "jeff@gmail.com", "secret" ) );
+		assertNull( User.connect( "jeff@gmail.com", "badpassword" ) );
 		assertNull( User.connect( "tom@gmail.com", "secret" ) );
-	}
-	
-	@Test
-	public void createPost() {
-		User bob = new User( "bob@mail.com", "789", "Bob Flingger").save();
 		
-		new Post( bob, "My first post", "Hello world!").save();
+		List<Post> bobPosts = Post.find( "author.email", "bob@gmail.com" ).fetch();
+		assertEquals( 2, bobPosts.size() );
 		
-		assertEquals( 1, Post.count() );
+		List<Comment> bobPostsComments = Comment.find( "post.author.email", "bob@gmail.com" ).fetch();
+		assertEquals( 3, bobPostsComments.size() );
 		
-		List<Post> bobPosts = Post.find( "byAuthor", bob ).fetch();
+		Post frontPost = Post.find( "order by postedAt desc").first();
 		
-		assertEquals( 1,  bobPosts.size() );
+		assertNotNull( frontPost );
+		assertEquals( "About the model layer", frontPost.title );
 		
-		Post firstPost = bobPosts.get( 0 );
+		assertEquals( 2, frontPost.comments.size() );
 		
-		assertNotNull( firstPost );
-		assertEquals( bob, firstPost.author );
-		assertEquals( "My first post", firstPost.title );
-		assertEquals( "Hello world!", firstPost.content );
-		assertNotNull( firstPost.postedAt );
-	}
-	
-	@Test
-	public void PostComments() {
+		frontPost.addComment( "Jim", "Hello guys" );
+		assertEquals( 3, frontPost.comments.size() );
+		assertEquals( 4, Comment.count() );
 		
-		User bob = new User( "bob@gmail.com", "secret", "Bob" ).save();
-		Post bobPost = new Post( bob, "My first post", "Hello world" ).save();
-		
-		new Comment( bobPost, "Jeff", "Nice post" ).save();
-		new Comment( bobPost, "Tom", "I knew that!" ).save();
-		
-		List<Comment> bobPostComments = Comment.find( "byPost", bobPost ).fetch();
-		
-		assertEquals( 2, bobPostComments.size() );
-		
-		Comment firstComment = bobPostComments.get( 0 );
-		assertNotNull( firstComment );
-		assertEquals( "Jeff", firstComment.author );
-		assertEquals( "Nice post", firstComment.content );
-		assertNotNull( firstComment.postedAt );
-		
-		Comment secondComment = bobPostComments.get( 1 );
-		assertNotNull( secondComment );
-		assertEquals( "Tom", secondComment.author );
-		assertEquals( "I knew that!" , secondComment.content );
-		assertNotNull( secondComment.postedAt );
 	}
 }

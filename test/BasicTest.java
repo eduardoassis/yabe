@@ -47,4 +47,30 @@ public class BasicTest extends UnitTest {
 		assertEquals( "Hello world!", firstPost.content );
 		assertNotNull( firstPost.postedAt );
 	}
+	
+	@Test
+	public void PostComments() {
+		
+		User bob = new User( "bob@gmail.com", "secret", "Bob" ).save();
+		Post bobPost = new Post( bob, "My first post", "Hello world" ).save();
+		
+		new Comment( bobPost, "Jeff", "Nice post" ).save();
+		new Comment( bobPost, "Tom", "I knew that!" ).save();
+		
+		List<Comment> bobPostComments = Comment.find( "byPost", bobPost ).fetch();
+		
+		assertEquals( 2, bobPostComments.size() );
+		
+		Comment firstComment = bobPostComments.get( 0 );
+		assertNotNull( firstComment );
+		assertEquals( "Jeff", firstComment.author );
+		assertEquals( "Nice post", firstComment.content );
+		assertNotNull( firstComment.postedAt );
+		
+		Comment secondComment = bobPostComments.get( 1 );
+		assertNotNull( secondComment );
+		assertEquals( "Tom", secondComment.author );
+		assertEquals( "I knew that!" , secondComment.content );
+		assertNotNull( secondComment.postedAt );
+	}
 }

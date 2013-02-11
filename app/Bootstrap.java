@@ -1,3 +1,6 @@
+import java.util.List;
+
+import models.Post;
 import models.User;
 import play.jobs.Job;
 import play.jobs.OnApplicationStart;
@@ -9,6 +12,7 @@ public class Bootstrap extends Job {
 	
 	public void doJob() {
 		if( User.count() == 0 ) {
+			Fixtures.deleteDatabase();
 			Fixtures.loadModels( "initial-data.yml" );
 		}
 	}

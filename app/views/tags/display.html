@@ -16,6 +16,23 @@
                 #{/if}
             </span>
         #{/if}
+        #{if _as != 'full'}
+	    	<span class="post-comments">
+	        	&nbsp;|&nbsp; ${_post.comments.size() ?: 'no'}
+	        	comment${_post.comments.size().pluralize()}
+	        	#{if _post.comments}
+	            , latest by ${_post.comments[0].author}
+	    		#{/if}
+    		</span>
+		#{/if}
+		#{elseif _post.tags}
+    		<span class="post-tags">
+    			- Tagged
+				#{list items:_post.tags, as:'tag'}
+    				<a href="@{Application.listTagged(tag.name)}">${tag}</a>${tag_isLast ? '' : ', '}
+				#{/list}
+    		</span>
+		#{/elseif}
     </div>
     #{if _as != 'teaser'}
         <div class="post-content">
@@ -24,7 +41,7 @@
         </div>
     #{/if}
 </div>
- 
+
 #{if _as == 'full'}
     <div class="comments">
         <h3>
@@ -49,3 +66,4 @@
         
     </div>
 #{/if}
+

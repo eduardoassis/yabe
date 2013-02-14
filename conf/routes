@@ -6,6 +6,7 @@
 GET     /                                       Application.index
 GET     /posts/{id}                             Application.show
 GET     /captcha                                Application.captcha
+GET     /posts/{tag}                            Application.listTagged
 
 POST    /posts/{postId}                         Application.postComment 
 

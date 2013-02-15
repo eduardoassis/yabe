@@ -10,7 +10,6 @@ public class BasicTest extends UnitTest {
 	public void setup() {
 		Fixtures.deleteDatabase();
 		Fixtures.loadModels("data.yml");
-		System.out.println("Here");
 	}
 	
 	@Test
@@ -47,11 +46,6 @@ public class BasicTest extends UnitTest {
 	@Test
 	public void recuperarListaDePosts() {
 		List<Post> posts = Post.findAll();
-		
-		for (Post post : posts) {
-			System.out.println(post.id +" "+ post.author.fullname );
-		}
-		
 		assertNotNull(posts);
 	}
 	

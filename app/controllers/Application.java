@@ -26,6 +26,7 @@ public class Application extends Controller {
 		render( frontPost, olderPosts );
 	}
 
+	
 	public static void show( Long id ) {
 		Post post = Post.findById( id );
 		String randomID = Codec.UUID();
@@ -49,7 +50,7 @@ public class Application extends Controller {
 	    post.addComment(author, content);
 	    flash.success("Thanks for posting %s", author);
 	    Cache.delete(randomID);
-	    show(postId);
+	  //  show(postId);
 	}
 	
 	public static void captcha( String id ) {

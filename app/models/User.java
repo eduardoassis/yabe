@@ -2,6 +2,8 @@ package models;
 
 import javax.persistence.Entity;
 
+import controllers.Check;
+
 import play.data.validation.Email;
 import play.data.validation.Required;
 import play.db.jpa.Model;

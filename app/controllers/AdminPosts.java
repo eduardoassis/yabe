@@ -1,14 +1,10 @@
 package controllers;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import models.Post;
-import models.User;
+import play.mvc.With;
 
-import play.libs.Codec;
-import play.mvc.Controller;
-
+@Check( "admin" )
+@With( Secure.class )
 @CRUD.For(Post.class)
 public class AdminPosts extends CRUD {
 }

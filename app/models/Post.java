@@ -17,6 +17,7 @@ import javax.persistence.OneToMany;
 import play.data.validation.MaxSize;
 import play.data.validation.Required;
 import play.db.jpa.Model;
+import play.mvc.With;
 
 @Entity
 public class Post extends Model {

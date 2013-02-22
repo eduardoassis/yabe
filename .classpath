@@ -3,10 +3,13 @@
 	<classpathentry excluding="views/**" kind="src" path="app"/>
 	<classpathentry kind="src" path="test"/>
 	<classpathentry kind="src" path="crud"/>
+	<classpathentry kind="src" path="jsonbinder-0.11"/>
 	<classpathentry kind="src" path="secure"/>
 	
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="/opt/play/framework/play-1.2.5.jar" sourcepath="/opt/play/framework/src" />
+	<classpathentry kind="lib" path="/home/eduardo/Área de Trabalho/treinamento/yabe/lib/flexjson-2.1.jar"/>
+	<classpathentry kind="lib" path="/home/eduardo/Área de Trabalho/treinamento/yabe/modules/jsonbinder-0.11/lib/play-jsonbinder.jar"/>
 	<classpathentry kind="lib" path="/opt/play/framework/lib/jamon-2.7.jar"/>
 	<classpathentry kind="lib" path="/opt/play/framework/lib/commons-beanutils-1.8.3.jar"/>
 	<classpathentry kind="lib" path="/opt/play/framework/lib/jaxb-impl-2.1.12.jar"/>

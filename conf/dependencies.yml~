@@ -2,3 +2,14 @@
 
 require:
     - play
+    - play -> crud
+    - play -> secure
+    - net.sf.flexjson -> flexjson 2.1
+    - br.ufla.lemaf -> jsonbinder 0.11
+
+repositories:
+    - playModules:
+        type:       http
+        artifact:   "http://200.131.95.35/play/modules/[module]-[revision].zip"
+        contains:
+            - br.ufla.lemaf -> *

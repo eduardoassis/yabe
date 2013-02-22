@@ -8,6 +8,12 @@ GET     /posts/{id}                             Application.show
 GET     /captcha                                Application.captcha
 GET     /posts/{tag}                            Application.listTagged
 
+# Admin
+
+GET     /admin/myPosts/{id}                     Admin.form
+GET     /admin/new                              Admin.form
+POST    /admin/new								Admin.save
+
 POST    /posts/{postId}                         Application.postComment 
 
 #Users
@@ -15,6 +21,8 @@ POST    /posts/{postId}                         Application.postComment
 GET     /users                                  Users.list
 
 #Posts
+
+GET     /yabe/posts                             AdminPosts.list(format:'json')
 
 # Ignore favicon requests
 GET     /favicon.ico                            404

@@ -1,9 +1,14 @@
 package controllers;
 
+import java.util.List;
+
+import models.Post;
+import models.Tag;
 import models.User;
 
 import org.junit.Before;
 
+import play.Play;
 import play.mvc.Controller;
 import play.mvc.With;
 
@@ -19,6 +24,39 @@ public class Admin extends Controller{
 	}
 	
 	public static void index() {
+		
+		String user = Security.connected();
+		List<Post> posts= Post.find( "author.email", user).fetch();
+		render(posts);
+	}
+	
+	public static void form( Long id ) {
+		
+		if( id != null ) {
+			Post post = Post.findById( id );
+			render( post );
+		}
 		render();
+	}
+	
+	public static void save( String title, String content, String tags ) {
+		
+		User author = User.find( "byEmail", Security.connected() ).first();
+		
+		Post post = new Post( author, title, content );
+		
+		for( String tag: tags.split( "\\s+" )  ) {
+			if( tag.trim().length() > 0 ) {
+				post.tags.add( Tag.findOrCreateByName(tag) );
+			}
+		}
+		
+		validation.valid( post );
+		if( validation.hasErrors() ) {
+			render( "@form", post );
+		}
+		
+		post.save();
+		index();
 	}
 }
